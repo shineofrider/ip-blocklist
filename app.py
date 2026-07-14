@@ -493,7 +493,7 @@ if __name__ == "__main__":
     worker.start()
 
     web_host = os.getenv("WEB_HOST", "0.0.0.0")
-    web_port = int(os.getenv("WEB_PORT", "8080"))
+    web_port = int(os.getenv("WEB_PORT", "80"))
 
     app.run(
         host=web_host,
