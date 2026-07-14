@@ -1,15 +1,32 @@
 services:
   ip-blocklist:
-    build: .
+    build:
+      context: https://github.com/shineofrider/ip-blocklist.git
+
+    container_name: ip-blocklist
 
     restart: unless-stopped
 
-    env_file:
-      - .env
+    environment:
+      MAIL_PROTOCOL: imap
+
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_SSL: ${MAIL_SSL}
+
+      MAIL_USER: ${MAIL_USER}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+
+      POLL_INTERVAL: ${POLL_INTERVAL}
+      RETENTION_DAYS: ${RETENTION_DAYS}
 
     volumes:
-      - ./data:/data
-      - ./exclusions.txt:/config/exclusions.txt:ro
+      - /opt/ip-blocklist/data:/data
+      - /opt/ip-blocklist/exclusions.txt:/config/exclusions.txt:ro
 
-    ports:
-      - "8080:8080"
+    networks:
+      - reverseproxy
+
+networks:
+  reverseproxy:
+    external: true
