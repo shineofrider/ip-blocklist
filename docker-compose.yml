@@ -1,0 +1,15 @@
+services:
+  ip-blocklist:
+    build: .
+
+    restart: unless-stopped
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./data:/data
+      - ./exclusions.txt:/config/exclusions.txt:ro
+
+    ports:
+      - "8080:8080"
